@@ -141,7 +141,18 @@ export class WindowManager {
     const contentEl = winEl.querySelector('.ae-window-content');
     let cleanupFn = null;
     if (typeof options.content === 'function') {
-      cleanupFn = options.content(contentEl);
+      try {
+        cleanupFn = options.content(contentEl);
+      } catch (err) {
+        console.error(`[AetherWM] Failed to render app '${appId}':`, err);
+        contentEl.innerHTML = `
+          <div style="padding:24px;color:#ef4444;font-family:monospace;background:#0d0d18;height:100%;">
+            <div style="font-size:16px;font-weight:bold;margin-bottom:8px;">Application Launch Error</div>
+            <div style="font-size:12px;color:#e8e8f0;margin-bottom:12px;">${err.message}</div>
+            <pre style="font-size:11px;color:#a0a0b8;background:rgba(0,0,0,0.5);padding:10px;border-radius:6px;overflow:auto;">${err.stack || ''}</pre>
+          </div>
+        `;
+      }
     }
 
     const winData = {

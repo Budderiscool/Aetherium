@@ -377,6 +377,8 @@
    ============================================================ */
 .ae-window {
   position: absolute;
+  top: 0;
+  left: 0;
   border-radius: var(--ae-radius);
   background: var(--ae-bg-primary);
   backdrop-filter: blur(var(--ae-blur));

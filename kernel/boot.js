@@ -456,17 +456,15 @@ export function updateDock() {
     `;
 
     item.addEventListener('click', () => {
-      if (isRunning) {
-        const appWins = runningWindows.filter((w) => w.appId === appId);
-        if (appWins.length > 0) {
-          const targetWin = appWins[0];
-          if (targetWin.isMinimized) {
-            wm.restoreWindow(targetWin.id);
-          } else if (wm.getActiveWindow() === targetWin.id) {
-            wm.minimizeWindow(targetWin.id);
-          } else {
-            wm.focusWindow(targetWin.id);
-          }
+      const currentWins = Array.from(wm.getWindows().values()).filter((w) => w.appId === appId);
+      if (currentWins.length > 0) {
+        const targetWin = currentWins[0];
+        if (targetWin.isMinimized) {
+          wm.restoreWindow(targetWin.id);
+        } else if (wm.getActiveWindow() === targetWin.id) {
+          wm.minimizeWindow(targetWin.id);
+        } else {
+          wm.focusWindow(targetWin.id);
         }
       } else {
         launchApp(appId);
