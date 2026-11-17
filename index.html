@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aetherium OS</title>
+  <meta name="description" content="Modular client-side browser operating system designed for static deployment on GitHub Pages.">
+  
+  <!-- Favicon: Inline SVG Ae periodic emblem -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a14' stroke='%2300d4ff' stroke-width='2'/%3E%3Ctext x='10' y='18' fill='%2300d4ff' font-family='monospace' font-size='10' font-weight='bold'%3E119%3C/text%3E%3Ctext x='32' y='42' fill='%23e8e8f0' font-family='sans-serif' font-size='24' font-weight='bold' text-anchor='middle'%3EAe%3C/text%3E%3C/svg%3E">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- System & Window Manager Stylesheets -->
+  <link rel="stylesheet" href="./styles/system.css">
+  <link rel="stylesheet" href="./styles/wm.css">
+</head>
+<body>
+  <!-- ============================================================
+       1. Bootloader & Kernel Initialization Screen
+       ============================================================ -->
+  <div id="ae-boot-screen" class="ae-boot-screen">
+    <div class="ae-boot-emblem">
+      <svg class="ae-emblem-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="110" height="110" rx="20" stroke="url(#ae-grad)" stroke-width="2.5" fill="rgba(15, 15, 25, 0.85)"/>
+        <text x="18" y="28" fill="#00d4ff" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="600">119</text>
+        <text x="60" y="72" fill="#e8e8f0" font-family="'Inter', sans-serif" font-size="44" font-weight="700" text-anchor="middle">Ae</text>
+        <text x="60" y="94" fill="#a0a0b8" font-family="'Inter', sans-serif" font-size="11" font-weight="500" letter-spacing="2" text-anchor="middle">AETHERIUM</text>
+        <text x="60" y="107" fill="#606078" font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">[294]</text>
+        <defs>
+          <linearGradient id="ae-grad" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#00d4ff"/>
+            <stop offset="0.5" stop-color="#6366f1"/>
+            <stop offset="1" stop-color="#00d4ff"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="ae-boot-title">AETHERIUM OS</div>
+    <div class="ae-boot-subtitle">Ionized Noble Architecture &bull; WebAssembly &bull; POSIX VFS</div>
+    <div id="ae-boot-log" class="ae-boot-log"></div>
+    <div class="ae-boot-progress-wrap">
+      <div id="ae-boot-progress-bar" class="ae-boot-progress"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       2. Multi-User Lock Screen
+       ============================================================ -->
+  <div id="ae-lock-screen" class="ae-lock-screen" style="display: none;">
+    <div class="ae-lock-container">
+      <div class="ae-lock-avatar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+
+      <!-- Login Form (Existing Users) -->
+      <div id="ae-lock-login-box">
+        <div id="ae-lock-username" class="ae-lock-username">Aether User</div>
+        <div class="ae-lock-input-wrap">
+          <input type="password" id="ae-lock-password" class="ae-lock-input" placeholder="Enter password or PIN" autofocus autocomplete="current-password">
+        </div>
+        <div class="ae-lock-actions">
+          <button id="ae-lock-btn" class="ae-btn ae-btn-primary">Unlock</button>
+          <button id="ae-lock-guest-btn" class="ae-btn ae-lock-guest">Guest Login</button>
+        </div>
+      </div>
+
+      <!-- Account Creation Form (First Run) -->
+      <div id="ae-lock-create-box" style="display: none;">
+        <div class="ae-lock-username" style="margin-bottom: 6px;">Setup Root Account</div>
+        <div style="font-size: 12px; color: var(--ae-text-secondary); margin-bottom: 16px;">Create your primary Aetherium OS credentials</div>
+        <div class="ae-lock-input-wrap" style="margin-bottom: 10px;">
+          <input type="text" id="ae-create-username" class="ae-lock-input" placeholder="Choose username" autocomplete="username">
+        </div>
+        <div class="ae-lock-input-wrap" style="margin-bottom: 16px;">
+          <input type="password" id="ae-create-password" class="ae-lock-input" placeholder="Create password / PIN" autocomplete="new-password">
+        </div>
+        <div class="ae-lock-actions">
+          <button id="ae-create-btn" class="ae-btn ae-btn-primary" style="width: 100%;">Create Account &amp; Start</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       3. Desktop Environment Shell
+       ============================================================ -->
+  <div id="ae-desktop-environment">
+    <!-- Top Status Bar -->
+    <header id="ae-topbar">
+      <div id="ae-topbar-left">
+        <button id="ae-system-menu-btn" title="Aetherium Menu" aria-label="System Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <path d="M7 16l5-8 5 8"/>
+            <circle cx="12" cy="14" r="1.5" fill="currentColor"/>
+          </svg>
+        </button>
+        <span id="ae-active-app-title">Desktop</span>
+      </div>
+
+      <div id="ae-topbar-center">
+        <div id="ae-workspace-switcher" title="Virtual Desktops">
+          <!-- Dynamically populated workspace pills -->
+        </div>
+      </div>
+
+      <div id="ae-topbar-right">
+        <button id="ae-search-btn" title="Spotlight Search (Alt + Space)" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+        <span id="ae-tray-network" title="Network Online">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+            <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+            <line x1="12" y1="20" x2="12.01" y2="20"/>
+          </svg>
+        </span>
+        <span id="ae-tray-battery" title="Battery">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="6" width="18" height="12" rx="2" ry="2"/>
+            <line x1="23" y1="13" x2="23" y2="11"/>
+            <rect x="3" y="8" width="12" height="8" rx="1" fill="currentColor"/>
+          </svg>
+        </span>
+        <button id="ae-tray-volume" title="Volume Mixer" aria-label="Volume">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          </svg>
+        </button>
+        <button id="ae-tray-notifications" title="Notification Center" aria-label="Notifications">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </button>
+        <button id="ae-clock" title="Date &amp; Calendar" aria-label="Clock">00:00</button>
+      </div>
+    </header>
+
+    <!-- Desktop Canvas / Icon Grid -->
+    <main id="ae-desktop" data-wallpaper="deep-space"></main>
+
+    <!-- Window Manager Layer -->
+    <div id="ae-window-container"></div>
+
+    <!-- Window Snapping Visual Zones Overlay -->
+    <div id="ae-snap-overlay">
+      <div class="ae-snap-zone ae-snap-left"></div>
+      <div class="ae-snap-zone ae-snap-right"></div>
+      <div class="ae-snap-zone ae-snap-top"></div>
+    </div>
+
+    <!-- Application Dock -->
+    <nav id="ae-dock" aria-label="Application Dock">
+      <div id="ae-dock-apps"></div>
+      <div class="ae-dock-separator"></div>
+      <button id="ae-app-launcher-btn" title="Applications (Launcher)" aria-label="Applications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+        </svg>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ============================================================
+       4. Popups, Menus & Overlays
+       ============================================================ -->
+
+  <!-- Toast Notification Container -->
+  <div id="ae-notification-container"></div>
+
+  <!-- Desktop Context Menu -->
+  <div id="ae-context-menu"></div>
+
+  <!-- System Menu Dropdown -->
+  <div id="ae-system-menu">
+    <div class="ae-system-menu-item" data-action="about">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <span>About Aetherium</span>
+    </div>
+    <div class="ae-system-menu-item" data-action="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span>System Settings</span>
+    </div>
+    <div class="ae-system-menu-separator"></div>
+    <div class="ae-system-menu-item" data-action="sleep">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <span>Sleep Display</span>
+    </div>
+    <div class="ae-system-menu-item" data-action="restart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      <span>Restart Kernel</span>
+    </div>
+    <div class="ae-system-menu-item danger" data-action="shutdown">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+      <span>Shut Down</span>
+    </div>
+  </div>
+
+  <!-- Application Launcher Drawer -->
+  <div id="ae-app-launcher">
+    <div class="ae-launcher-search">
+      <input type="text" id="ae-launcher-input" placeholder="Search installed applications..." autocomplete="off">
+    </div>
+    <div id="ae-launcher-grid" class="ae-launcher-grid"></div>
+  </div>
+
+  <!-- Spotlight Search Overlay -->
+  <div id="ae-search-overlay">
+    <div class="ae-search-box">
+      <input type="text" id="ae-search-input" placeholder="Type an app, file, or command (e.g. 'terminal', 'calc')..." autocomplete="off">
+      <div id="ae-search-results" class="ae-search-results"></div>
+    </div>
+  </div>
+
+  <!-- Calendar / Clock Widget -->
+  <div id="ae-calendar-widget">
+    <div class="ae-calendar-header">
+      <div id="ae-calendar-title" class="ae-calendar-title">Month Year</div>
+      <div style="display:flex;gap:4px;">
+        <button id="ae-cal-prev" title="Previous Month">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button id="ae-cal-next" title="Next Month">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="ae-calendar-days">
+      <div class="ae-calendar-day-label">Su</div>
+      <div class="ae-calendar-day-label">Mo</div>
+      <div class="ae-calendar-day-label">Tu</div>
+      <div class="ae-calendar-day-label">We</div>
+      <div class="ae-calendar-day-label">Th</div>
+      <div class="ae-calendar-day-label">Fr</div>
+      <div class="ae-calendar-day-label">Sa</div>
+    </div>
+    <div id="ae-calendar-grid" class="ae-calendar-days"></div>
+    <div id="ae-calendar-time" class="ae-calendar-time">00:00:00</div>
+  </div>
+
+  <!-- Volume Mixer Popup -->
+  <div id="ae-volume-slider">
+    <div class="ae-volume-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+      </svg>
+      <span>Master Volume</span>
+    </div>
+    <div id="ae-vol-track" class="ae-volume-track">
+      <div id="ae-vol-fill" class="ae-volume-fill" style="width: 80%;">
+        <div id="ae-vol-thumb" class="ae-volume-thumb"></div>
+      </div>
+    </div>
+    <div id="ae-vol-value" class="ae-volume-value">80%</div>
+  </div>
+
+  <!-- ============================================================
+       5. Kernel Bootloader Script
+       ============================================================ -->
+  <script type="module" src="./kernel/boot.js"></script>
+</body>
+</html>

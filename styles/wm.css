@@ -1,0 +1,642 @@
+/* ============================================================
+   Aetherium OS — Window Manager CSS
+   Topbar, Dock, Windows, Snap Zones, Workspaces, Desktop
+   ============================================================ */
+
+/* ============================================================
+   Desktop Area
+   ============================================================ */
+#ae-desktop-environment {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  inset: 0;
+}
+
+#ae-desktop-environment.visible {
+  display: block;
+  animation: ae-fade-in 0.5s ease-out;
+}
+
+#ae-desktop {
+  position: fixed;
+  top: var(--ae-topbar-height);
+  left: 0;
+  right: 0;
+  bottom: 72px;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 4px;
+  padding: 16px;
+}
+
+/* ============================================================
+   Topbar
+   ============================================================ */
+#ae-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--ae-topbar-height);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  background: var(--ae-bg-primary);
+  backdrop-filter: blur(var(--ae-blur));
+  -webkit-backdrop-filter: blur(var(--ae-blur));
+  border-bottom: 1px solid var(--ae-border);
+  user-select: none;
+  font-size: 13px;
+}
+
+/* ---- Topbar Left ---- */
+#ae-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+#ae-system-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--ae-accent);
+  transition: background var(--ae-transition);
+}
+
+#ae-system-menu-btn:hover {
+  background: var(--ae-bg-tertiary);
+}
+
+#ae-system-menu-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+#ae-active-app-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ae-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+/* ---- Topbar Center ---- */
+#ae-topbar-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+#ae-workspace-switcher {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ae-workspace-btn {
+  width: 20px;
+  height: 6px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  background: var(--ae-bg-tertiary);
+  transition: background var(--ae-transition), width var(--ae-transition);
+}
+
+.ae-workspace-btn:hover {
+  background: var(--ae-border-hover);
+}
+
+.ae-workspace-btn.active {
+  background: var(--ae-accent);
+  width: 32px;
+}
+
+/* ---- Topbar Right ---- */
+#ae-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+#ae-topbar-right button,
+#ae-topbar-right span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  padding: 0 6px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--ae-text-secondary);
+  transition: background var(--ae-transition), color var(--ae-transition);
+  font-family: var(--ae-font-ui);
+  font-size: 12px;
+}
+
+#ae-topbar-right button:hover,
+#ae-topbar-right span:hover {
+  background: var(--ae-bg-tertiary);
+  color: var(--ae-text-primary);
+}
+
+#ae-topbar-right svg {
+  width: 18px;
+  height: 18px;
+}
+
+#ae-search-btn {
+  color: var(--ae-text-secondary);
+}
+
+#ae-tray-network,
+#ae-tray-battery {
+  pointer-events: none;
+}
+
+#ae-tray-network svg,
+#ae-tray-battery svg {
+  width: 16px;
+  height: 16px;
+}
+
+#ae-clock {
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  font-weight: 400;
+  min-width: 56px;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+/* ============================================================
+   Dock
+   ============================================================ */
+#ae-dock {
+  position: fixed;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: var(--ae-dock-height);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 2px;
+  background: var(--ae-bg-primary);
+  backdrop-filter: blur(var(--ae-blur));
+  -webkit-backdrop-filter: blur(var(--ae-blur));
+  border: 1px solid var(--ae-border);
+  border-radius: 20px;
+  box-shadow: var(--ae-shadow);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+#ae-dock-apps {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 100%;
+}
+
+/* ---- Dock Icon ---- */
+.ae-dock-icon {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--ae-text-primary);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background var(--ae-transition);
+  user-select: none;
+}
+
+.ae-dock-icon:hover {
+  transform: scale(1.3) translateY(-6px);
+  background: var(--ae-bg-tertiary);
+}
+
+.ae-dock-icon svg {
+  width: 26px;
+  height: 26px;
+  pointer-events: none;
+}
+
+/* Active indicator dot */
+.ae-dock-icon.active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ae-accent);
+}
+
+/* Dock tooltip */
+.ae-dock-icon .ae-dock-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  padding: 4px 10px;
+  background: var(--ae-bg-primary);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--ae-border);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ae-text-primary);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.ae-dock-icon:hover .ae-dock-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* ---- Dock Separator ---- */
+.ae-dock-separator {
+  width: 1px;
+  height: 32px;
+  background: var(--ae-border-hover);
+  margin: 0 6px;
+  flex-shrink: 0;
+}
+
+/* ---- App Launcher Button in Dock ---- */
+#ae-app-launcher-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--ae-text-secondary);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color var(--ae-transition), background var(--ae-transition);
+}
+
+#ae-app-launcher-btn:hover {
+  transform: scale(1.3) translateY(-6px);
+  color: var(--ae-text-primary);
+  background: var(--ae-bg-tertiary);
+}
+
+#ae-app-launcher-btn svg {
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Window Container
+   ============================================================ */
+#ae-window-container {
+  position: fixed;
+  top: var(--ae-topbar-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* ============================================================
+   Window
+   ============================================================ */
+.ae-window {
+  position: absolute;
+  border-radius: var(--ae-radius);
+  background: var(--ae-bg-primary);
+  backdrop-filter: blur(var(--ae-blur));
+  -webkit-backdrop-filter: blur(var(--ae-blur));
+  border: 1px solid var(--ae-border);
+  box-shadow: var(--ae-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: auto;
+  transition: box-shadow var(--ae-transition), border-color var(--ae-transition);
+  min-width: 200px;
+  min-height: 120px;
+}
+
+/* ---- Focused ---- */
+.ae-window.focused {
+  border-color: var(--ae-border-active);
+  box-shadow: var(--ae-shadow-lg), 0 0 0 1px var(--ae-border-active);
+}
+
+/* ---- Minimized ---- */
+.ae-window.minimized {
+  transform: scale(0.8) translateY(100px) !important;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---- Maximized ---- */
+.ae-window.maximized {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: calc(100vh - var(--ae-topbar-height) - 72px) !important;
+  border-radius: 0;
+  transition: top 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              left 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              border-radius 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---- Snapped Left ---- */
+.ae-window.snapped-left {
+  top: 0 !important;
+  left: 0 !important;
+  width: 50vw !important;
+  height: calc(100vh - var(--ae-topbar-height) - 72px) !important;
+  border-radius: 0;
+  transition: top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease, border-radius 0.2s ease;
+}
+
+/* ---- Snapped Right ---- */
+.ae-window.snapped-right {
+  top: 0 !important;
+  left: 50vw !important;
+  width: 50vw !important;
+  height: calc(100vh - var(--ae-topbar-height) - 72px) !important;
+  border-radius: 0;
+  transition: top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease, border-radius 0.2s ease;
+}
+
+/* ============================================================
+   Window Titlebar
+   ============================================================ */
+.ae-window-titlebar {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  cursor: default;
+  border-bottom: 1px solid var(--ae-border);
+  user-select: none;
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.ae-window-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ae-window-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.ae-window-title {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ae-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* ============================================================
+   Window Controls
+   ============================================================ */
+.ae-window-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.ae-window-btn {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  background: var(--ae-bg-tertiary);
+  color: transparent;
+  transition: background var(--ae-transition), color var(--ae-transition);
+}
+
+.ae-window-btn svg {
+  width: 10px;
+  height: 10px;
+  stroke-width: 2.5;
+}
+
+.ae-window-btn.minimize:hover {
+  background: #f59e0b;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.ae-window-btn.maximize:hover {
+  background: #22c55e;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.ae-window-btn.close:hover {
+  background: #ef4444;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* Show icons when hovering the controls group */
+.ae-window-controls:hover .ae-window-btn {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================================
+   Window Content
+   ============================================================ */
+.ae-window-content {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  background: rgba(10, 10, 20, 0.35);
+}
+
+[data-theme="light"] .ae-window-content {
+  background: rgba(245, 245, 252, 0.4);
+}
+
+[data-theme="glass"] .ae-window-content {
+  background: rgba(10, 10, 20, 0.15);
+}
+
+/* ============================================================
+   Window Resize Handles
+   ============================================================ */
+.ae-window-resize {
+  position: absolute;
+  z-index: 1;
+}
+
+.ae-window-resize[data-dir="n"] {
+  top: -3px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  cursor: ns-resize;
+}
+
+.ae-window-resize[data-dir="s"] {
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  cursor: ns-resize;
+}
+
+.ae-window-resize[data-dir="e"] {
+  right: -3px;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: ew-resize;
+}
+
+.ae-window-resize[data-dir="w"] {
+  left: -3px;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: ew-resize;
+}
+
+.ae-window-resize[data-dir="ne"] {
+  top: -3px;
+  right: -3px;
+  width: 12px;
+  height: 12px;
+  cursor: nesw-resize;
+}
+
+.ae-window-resize[data-dir="nw"] {
+  top: -3px;
+  left: -3px;
+  width: 12px;
+  height: 12px;
+  cursor: nwse-resize;
+}
+
+.ae-window-resize[data-dir="se"] {
+  bottom: -3px;
+  right: -3px;
+  width: 12px;
+  height: 12px;
+  cursor: nwse-resize;
+}
+
+.ae-window-resize[data-dir="sw"] {
+  bottom: -3px;
+  left: -3px;
+  width: 12px;
+  height: 12px;
+  cursor: nesw-resize;
+}
+
+/* ============================================================
+   Snap Zones Overlay
+   ============================================================ */
+#ae-snap-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  display: none;
+}
+
+#ae-snap-overlay.visible {
+  display: block;
+}
+
+.ae-snap-zone {
+  position: absolute;
+  border: 2px dashed var(--ae-accent);
+  border-radius: 8px;
+  background: var(--ae-accent-glow);
+  transition: opacity 0.2s ease;
+  opacity: 0;
+}
+
+.ae-snap-zone.active {
+  opacity: 1;
+}
+
+.ae-snap-left {
+  left: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+}
+
+.ae-snap-right {
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+}
+
+.ae-snap-top {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================================
+   Workspace Switcher (topbar center)
+   already styled above in topbar section
+   ============================================================ */

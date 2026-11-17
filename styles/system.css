@@ -1,0 +1,1301 @@
+/* ============================================================
+   Aetherium OS — System CSS
+   Master theme, variables, global resets, boot/lock screens,
+   form inputs, notifications, context menus, overlays, utilities
+   ============================================================ */
+
+/* ---- CSS Custom Properties: Dark Theme (default) ---- */
+:root,
+[data-theme="dark"] {
+  --ae-bg-primary: rgba(15, 15, 25, 0.85);
+  --ae-bg-secondary: rgba(25, 25, 40, 0.75);
+  --ae-bg-tertiary: rgba(35, 35, 55, 0.65);
+  --ae-bg-solid: #0a0a14;
+  --ae-text-primary: #e8e8f0;
+  --ae-text-secondary: #a0a0b8;
+  --ae-text-muted: #606078;
+  --ae-accent: #00d4ff;
+  --ae-accent-secondary: #6366f1;
+  --ae-accent-glow: rgba(0, 212, 255, 0.3);
+  --ae-danger: #ef4444;
+  --ae-warning: #f59e0b;
+  --ae-success: #22c55e;
+  --ae-border: rgba(255, 255, 255, 0.08);
+  --ae-border-hover: rgba(255, 255, 255, 0.15);
+  --ae-border-active: rgba(0, 212, 255, 0.3);
+
+  /* Sizing */
+  --ae-radius: 12px;
+  --ae-radius-sm: 8px;
+  --ae-radius-lg: 16px;
+  --ae-blur: 18px;
+  --ae-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --ae-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
+
+  /* Typography */
+  --ae-font-ui: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --ae-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Layout */
+  --ae-topbar-height: 32px;
+  --ae-dock-height: 64px;
+  --ae-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --ae-transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---- Light Theme ---- */
+[data-theme="light"] {
+  --ae-bg-primary: rgba(240, 240, 248, 0.92);
+  --ae-bg-secondary: rgba(228, 228, 238, 0.88);
+  --ae-bg-tertiary: rgba(218, 218, 230, 0.82);
+  --ae-bg-solid: #f0f0f8;
+  --ae-text-primary: #1a1a2e;
+  --ae-text-secondary: #4a4a62;
+  --ae-text-muted: #8a8a9e;
+  --ae-accent: #0099cc;
+  --ae-accent-secondary: #4f46e5;
+  --ae-accent-glow: rgba(0, 153, 204, 0.2);
+  --ae-danger: #dc2626;
+  --ae-warning: #d97706;
+  --ae-success: #16a34a;
+  --ae-border: rgba(0, 0, 0, 0.1);
+  --ae-border-hover: rgba(0, 0, 0, 0.18);
+  --ae-border-active: rgba(0, 153, 204, 0.35);
+  --ae-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --ae-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.18);
+}
+
+/* ---- Glass Theme (enhanced transparency & blur) ---- */
+[data-theme="glass"] {
+  --ae-bg-primary: rgba(15, 15, 25, 0.55);
+  --ae-bg-secondary: rgba(25, 25, 40, 0.45);
+  --ae-bg-tertiary: rgba(35, 35, 55, 0.35);
+  --ae-bg-solid: rgba(10, 10, 20, 0.7);
+  --ae-text-primary: #e8e8f0;
+  --ae-text-secondary: #a0a0b8;
+  --ae-text-muted: #606078;
+  --ae-accent: #00d4ff;
+  --ae-accent-secondary: #6366f1;
+  --ae-accent-glow: rgba(0, 212, 255, 0.35);
+  --ae-danger: #ef4444;
+  --ae-warning: #f59e0b;
+  --ae-success: #22c55e;
+  --ae-border: rgba(255, 255, 255, 0.12);
+  --ae-border-hover: rgba(255, 255, 255, 0.2);
+  --ae-border-active: rgba(0, 212, 255, 0.4);
+  --ae-blur: 28px;
+  --ae-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --ae-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.7);
+}
+
+/* ============================================================
+   Global Reset
+   ============================================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--ae-font-ui);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ae-text-primary);
+  background: var(--ae-bg-solid);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  position: relative;
+}
+
+/* ---- Typography ---- */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ae-text-primary);
+}
+
+h1 { font-size: 24px; }
+h2 { font-size: 20px; }
+h3 { font-size: 16px; }
+h4 { font-size: 14px; }
+
+code, pre, .ae-mono {
+  font-family: var(--ae-font-mono);
+}
+
+a {
+  color: var(--ae-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ---- Scrollbar Styling ---- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ae-text-muted);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ae-text-secondary);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox thin scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ae-text-muted) transparent;
+}
+
+/* ---- Selection ---- */
+::selection {
+  background: var(--ae-accent);
+  color: #000;
+}
+
+::-moz-selection {
+  background: var(--ae-accent);
+  color: #000;
+}
+
+/* ============================================================
+   Animations
+   ============================================================ */
+@keyframes ae-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes ae-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes ae-slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes ae-pulse {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1;   }
+}
+
+@keyframes ae-spin {
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes ae-boot-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px var(--ae-accent-glow));
+  }
+  50% {
+    filter: drop-shadow(0 0 24px var(--ae-accent)) drop-shadow(0 0 48px var(--ae-accent-glow));
+  }
+}
+
+@keyframes ae-typing-cursor {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+@keyframes ae-toast-slide-in {
+  from { transform: translateX(120%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes ae-toast-slide-out {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(120%); opacity: 0; }
+}
+
+@keyframes ae-progress-fill {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* ============================================================
+   Boot Screen
+   ============================================================ */
+.ae-boot-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a14;
+  color: var(--ae-text-primary);
+  animation: ae-fade-in 0.6s ease-out;
+}
+
+.ae-boot-emblem {
+  width: 160px;
+  height: 200px;
+  margin-bottom: 32px;
+  animation: ae-boot-glow 3s ease-in-out infinite;
+}
+
+.ae-boot-emblem svg {
+  width: 100%;
+  height: 100%;
+}
+
+#ae-boot-log {
+  width: 480px;
+  max-width: 90vw;
+  height: 160px;
+  overflow-y: auto;
+  padding: 12px 16px;
+  font-family: var(--ae-font-mono);
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--ae-text-secondary);
+  background: rgba(15, 15, 25, 0.6);
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius-sm);
+  margin-bottom: 24px;
+}
+
+#ae-boot-log .log-entry {
+  white-space: pre;
+}
+
+#ae-boot-log .log-entry::before {
+  content: '> ';
+  color: var(--ae-accent);
+}
+
+.ae-boot-progress {
+  width: 320px;
+  max-width: 60vw;
+  height: 3px;
+  background: var(--ae-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.ae-boot-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ae-accent), var(--ae-accent-secondary));
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.3s ease-out;
+}
+
+/* ============================================================
+   Lock Screen
+   ============================================================ */
+#ae-lock-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 40%, #1a0533 0%, #0a0a14 60%, #000008 100%);
+  color: var(--ae-text-primary);
+}
+
+#ae-lock-screen.visible {
+  display: flex;
+  animation: ae-fade-in 0.5s ease-out;
+}
+
+.ae-lock-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  animation: ae-slide-up 0.6s ease-out;
+}
+
+.ae-lock-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--ae-bg-secondary);
+  border: 2px solid var(--ae-border-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ae-text-secondary);
+  overflow: hidden;
+}
+
+.ae-lock-avatar svg {
+  width: 40px;
+  height: 40px;
+}
+
+.ae-lock-username {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ae-text-primary);
+}
+
+.ae-lock-input-wrap {
+  position: relative;
+  width: 280px;
+}
+
+.ae-lock-input {
+  width: 100%;
+  padding: 10px 16px;
+  font-family: var(--ae-font-ui);
+  font-size: 14px;
+  color: var(--ae-text-primary);
+  background: var(--ae-bg-secondary);
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius-sm);
+  outline: none;
+  transition: border-color var(--ae-transition);
+}
+
+.ae-lock-input:focus {
+  border-color: var(--ae-accent);
+  box-shadow: 0 0 0 3px var(--ae-accent-glow);
+}
+
+.ae-lock-input::placeholder {
+  color: var(--ae-text-muted);
+}
+
+.ae-lock-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.ae-lock-btn {
+  padding: 8px 28px;
+  font-family: var(--ae-font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+  background: var(--ae-accent);
+  border: none;
+  border-radius: var(--ae-radius-sm);
+  cursor: pointer;
+  transition: background var(--ae-transition), box-shadow var(--ae-transition);
+}
+
+.ae-lock-btn:hover {
+  background: #33ddff;
+  box-shadow: 0 0 16px var(--ae-accent-glow);
+}
+
+.ae-lock-btn:active {
+  transform: scale(0.97);
+}
+
+.ae-lock-guest {
+  padding: 8px 20px;
+  font-family: var(--ae-font-ui);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ae-text-secondary);
+  background: var(--ae-bg-tertiary);
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius-sm);
+  cursor: pointer;
+  transition: background var(--ae-transition), color var(--ae-transition);
+}
+
+.ae-lock-guest:hover {
+  background: var(--ae-bg-secondary);
+  color: var(--ae-text-primary);
+}
+
+/* Account creation form */
+.ae-lock-create {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 24px;
+  background: var(--ae-bg-secondary);
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius);
+  animation: ae-slide-up 0.5s ease-out;
+}
+
+.ae-lock-create.visible {
+  display: flex;
+}
+
+.ae-lock-create h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ae-text-primary);
+  margin-bottom: 4px;
+}
+
+.ae-create-username,
+.ae-create-password {
+  width: 260px;
+  padding: 10px 16px;
+  font-family: var(--ae-font-ui);
+  font-size: 14px;
+  color: var(--ae-text-primary);
+  background: var(--ae-bg-tertiary);
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius-sm);
+  outline: none;
+  transition: border-color var(--ae-transition);
+}
+
+.ae-create-username:focus,
+.ae-create-password:focus {
+  border-color: var(--ae-accent);
+  box-shadow: 0 0 0 3px var(--ae-accent-glow);
+}
+
+.ae-create-username::placeholder,
+.ae-create-password::placeholder {
+  color: var(--ae-text-muted);
+}
+
+.ae-create-btn {
+  padding: 8px 28px;
+  font-family: var(--ae-font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+  background: var(--ae-accent);
+  border: none;
+  border-radius: var(--ae-radius-sm);
+  cursor: pointer;
+  transition: background var(--ae-transition), box-shadow var(--ae-transition);
+}
+
+.ae-create-btn:hover {
+  background: #33ddff;
+  box-shadow: 0 0 16px var(--ae-accent-glow);
+}
+
+.ae-create-btn:active {
+  transform: scale(0.97);
+}
+
+/* ============================================================
+   Form Inputs / Buttons (Global)
+   ============================================================ */
+.ae-input {
+  padding: 8px 12px;
+  font-family: var(--ae-font-ui);
+  font-size: 13px;
+  color: var(--ae-text-primary);
+  background: var(--ae-bg-secondary);
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius-sm);
+  outline: none;
+  transition: border-color var(--ae-transition), box-shadow var(--ae-transition);
+}
+
+.ae-input:focus {
+  border-color: var(--ae-accent);
+  box-shadow: 0 0 0 3px var(--ae-accent-glow);
+}
+
+.ae-input::placeholder {
+  color: var(--ae-text-muted);
+}
+
+.ae-select {
+  padding: 8px 12px;
+  font-family: var(--ae-font-ui);
+  font-size: 13px;
+  color: var(--ae-text-primary);
+  background: var(--ae-bg-secondary);
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius-sm);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%23a0a0b8' stroke-width='2' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 32px;
+  transition: border-color var(--ae-transition);
+}
+
+.ae-select:focus {
+  border-color: var(--ae-accent);
+}
+
+.ae-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-family: var(--ae-font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ae-text-primary);
+  background: var(--ae-bg-secondary);
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius-sm);
+  cursor: pointer;
+  transition: background var(--ae-transition), border-color var(--ae-transition), color var(--ae-transition);
+  user-select: none;
+  line-height: 1.4;
+}
+
+.ae-btn:hover {
+  background: var(--ae-bg-tertiary);
+  border-color: var(--ae-border-hover);
+}
+
+.ae-btn:active {
+  transform: scale(0.97);
+}
+
+.ae-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.ae-btn-primary {
+  color: #000;
+  background: var(--ae-accent);
+  border-color: transparent;
+}
+
+.ae-btn-primary:hover {
+  background: #33ddff;
+  border-color: transparent;
+  box-shadow: 0 0 16px var(--ae-accent-glow);
+}
+
+/* ============================================================
+   Glassmorphism Utility
+   ============================================================ */
+.ae-glass {
+  background: var(--ae-bg-primary);
+  backdrop-filter: blur(var(--ae-blur));
+  -webkit-backdrop-filter: blur(var(--ae-blur));
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius);
+  box-shadow: var(--ae-shadow);
+}
+
+/* ============================================================
+   Toast Notifications
+   ============================================================ */
+#ae-notification-container {
+  position: fixed;
+  top: 44px;
+  right: 12px;
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  max-width: 360px;
+}
+
+.ae-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--ae-bg-primary);
+  backdrop-filter: blur(var(--ae-blur));
+  -webkit-backdrop-filter: blur(var(--ae-blur));
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius-sm);
+  box-shadow: var(--ae-shadow);
+  color: var(--ae-text-primary);
+  font-size: 13px;
+  pointer-events: auto;
+  cursor: pointer;
+  animation: ae-toast-slide-in 0.3s ease-out forwards;
+  transition: opacity 0.3s ease;
+  border-left: 3px solid var(--ae-accent);
+}
+
+.ae-toast.removing {
+  animation: ae-toast-slide-out 0.3s ease-in forwards;
+}
+
+.ae-toast .ae-toast-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ae-toast .ae-toast-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ae-toast .ae-toast-title {
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.ae-toast .ae-toast-message {
+  font-size: 12px;
+  color: var(--ae-text-secondary);
+  word-break: break-word;
+}
+
+.ae-toast.info {
+  border-left-color: var(--ae-accent);
+}
+
+.ae-toast.success {
+  border-left-color: var(--ae-success);
+}
+
+.ae-toast.warning {
+  border-left-color: var(--ae-warning);
+}
+
+.ae-toast.error {
+  border-left-color: var(--ae-danger);
+}
+
+/* ============================================================
+   Context Menu
+   ============================================================ */
+#ae-context-menu {
+  position: fixed;
+  z-index: 10000;
+  display: none;
+  min-width: 180px;
+  padding: 6px 0;
+  background: var(--ae-bg-primary);
+  backdrop-filter: blur(var(--ae-blur));
+  -webkit-backdrop-filter: blur(var(--ae-blur));
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius-sm);
+  box-shadow: var(--ae-shadow-lg);
+  animation: ae-fade-in 0.12s ease-out;
+}
+
+#ae-context-menu.visible {
+  display: block;
+}
+
+.ae-context-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px;
+  font-size: 13px;
+  color: var(--ae-text-primary);
+  cursor: pointer;
+  transition: background var(--ae-transition);
+  user-select: none;
+}
+
+.ae-context-item:hover {
+  background: var(--ae-accent-glow);
+}
+
+.ae-context-item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--ae-text-secondary);
+}
+
+.ae-context-item .ae-context-shortcut {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--ae-text-muted);
+}
+
+.ae-context-separator {
+  height: 1px;
+  margin: 4px 12px;
+  background: var(--ae-border);
+}
+
+.ae-context-item.danger {
+  color: var(--ae-danger);
+}
+
+.ae-context-item.danger svg {
+  color: var(--ae-danger);
+}
+
+/* ============================================================
+   App Launcher Overlay
+   ============================================================ */
+#ae-app-launcher {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  animation: ae-fade-in 0.2s ease-out;
+}
+
+#ae-app-launcher.visible {
+  display: flex;
+}
+
+.ae-launcher-search {
+  width: 420px;
+  max-width: 90vw;
+  margin-bottom: 32px;
+}
+
+.ae-launcher-search input {
+  width: 100%;
+  padding: 12px 20px;
+  font-family: var(--ae-font-ui);
+  font-size: 16px;
+  color: var(--ae-text-primary);
+  background: var(--ae-bg-secondary);
+  border: 1px solid var(--ae-border-hover);
+  border-radius: var(--ae-radius);
+  outline: none;
+  transition: border-color var(--ae-transition);
+}
+
+.ae-launcher-search input:focus {
+  border-color: var(--ae-accent);
+  box-shadow: 0 0 0 3px var(--ae-accent-glow);
+}
+
+.ae-launcher-search input::placeholder {
+  color: var(--ae-text-muted);
+}
+
+.ae-launcher-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 100px);
+  gap: 16px;
+  justify-content: center;
+  width: 540px;
+  max-width: 90vw;
+  max-height: calc(100vh - 240px);
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.ae-launcher-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 8px;
+  border-radius: var(--ae-radius-sm);
+  cursor: pointer;
+  transition: background var(--ae-transition);
+  user-select: none;
+}
+
+.ae-launcher-item:hover {
+  background: var(--ae-bg-tertiary);
+}
+
+.ae-launcher-item .ae-launcher-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ae-text-primary);
+}
+
+.ae-launcher-item .ae-launcher-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.ae-launcher-item .ae-launcher-label {
+  font-size: 11px;
+  color: var(--ae-text-secondary);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 90px;
+}
+
+/* ============================================================
+   Search / Spotlight Overlay
+   ============================================================ */
+#ae-search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9600;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: ae-fade-in 0.15s ease-out;
+}
+
+#ae-search-overlay.visible {
+  display: flex;
+}
+
+.ae-search-box {
+  width: 520px;
+  max-width: 90vw;
+}
+
+.ae-search-box input {
+  width: 100%;
+  padding: 14px 24px;
+  font-family: var(--ae-font-ui);
+  font-size: 18px;
+  color: var(--ae-text-primary);
+  background: var(--ae-bg-primary);
+  border: 1px solid var(--ae-border-hover);
+  border-radius: var(--ae-radius-lg);
+  outline: none;
+  box-shadow: var(--ae-shadow-lg);
+  transition: border-color var(--ae-transition);
+}
+
+.ae-search-box input:focus {
+  border-color: var(--ae-accent);
+  box-shadow: var(--ae-shadow-lg), 0 0 0 3px var(--ae-accent-glow);
+}
+
+.ae-search-box input::placeholder {
+  color: var(--ae-text-muted);
+}
+
+.ae-search-results {
+  width: 520px;
+  max-width: 90vw;
+  margin-top: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+  background: var(--ae-bg-primary);
+  backdrop-filter: blur(var(--ae-blur));
+  -webkit-backdrop-filter: blur(var(--ae-blur));
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius);
+  box-shadow: var(--ae-shadow);
+  display: none;
+}
+
+.ae-search-results.has-results {
+  display: block;
+}
+
+.ae-search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background var(--ae-transition);
+}
+
+.ae-search-result-item:hover {
+  background: var(--ae-accent-glow);
+}
+
+.ae-search-result-item svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--ae-text-secondary);
+}
+
+.ae-search-result-item span {
+  font-size: 14px;
+  color: var(--ae-text-primary);
+}
+
+/* ============================================================
+   System Menu Dropdown
+   ============================================================ */
+#ae-system-menu {
+  position: fixed;
+  top: var(--ae-topbar-height);
+  left: 4px;
+  z-index: 9100;
+  display: none;
+  min-width: 200px;
+  padding: 6px 0;
+  background: var(--ae-bg-primary);
+  backdrop-filter: blur(var(--ae-blur));
+  -webkit-backdrop-filter: blur(var(--ae-blur));
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius-sm);
+  box-shadow: var(--ae-shadow-lg);
+  animation: ae-fade-in 0.12s ease-out;
+}
+
+#ae-system-menu.visible {
+  display: block;
+}
+
+.ae-system-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: var(--ae-text-primary);
+  cursor: pointer;
+  transition: background var(--ae-transition);
+  user-select: none;
+}
+
+.ae-system-menu-item:hover {
+  background: var(--ae-accent-glow);
+}
+
+.ae-system-menu-item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--ae-text-secondary);
+}
+
+.ae-system-menu-separator {
+  height: 1px;
+  margin: 4px 12px;
+  background: var(--ae-border);
+}
+
+.ae-system-menu-item.danger {
+  color: var(--ae-danger);
+}
+
+.ae-system-menu-item.danger svg {
+  color: var(--ae-danger);
+}
+
+/* ============================================================
+   Calendar Widget Popup
+   ============================================================ */
+#ae-calendar-widget {
+  position: fixed;
+  top: var(--ae-topbar-height);
+  right: 8px;
+  z-index: 9100;
+  display: none;
+  width: 280px;
+  padding: 16px;
+  background: var(--ae-bg-primary);
+  backdrop-filter: blur(var(--ae-blur));
+  -webkit-backdrop-filter: blur(var(--ae-blur));
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius);
+  box-shadow: var(--ae-shadow-lg);
+  animation: ae-fade-in 0.12s ease-out;
+}
+
+#ae-calendar-widget.visible {
+  display: block;
+}
+
+.ae-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.ae-calendar-header .ae-calendar-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ae-text-primary);
+}
+
+.ae-calendar-header button {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--ae-text-secondary);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background var(--ae-transition);
+}
+
+.ae-calendar-header button:hover {
+  background: var(--ae-bg-tertiary);
+}
+
+.ae-calendar-header button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.ae-calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.ae-calendar-day-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ae-text-muted);
+  padding: 4px 0;
+}
+
+.ae-calendar-day {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--ae-text-secondary);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background var(--ae-transition), color var(--ae-transition);
+  margin: 0 auto;
+}
+
+.ae-calendar-day:hover {
+  background: var(--ae-bg-tertiary);
+  color: var(--ae-text-primary);
+}
+
+.ae-calendar-day.today {
+  background: var(--ae-accent);
+  color: #000;
+  font-weight: 600;
+}
+
+.ae-calendar-day.other-month {
+  color: var(--ae-text-muted);
+  opacity: 0.4;
+}
+
+.ae-calendar-time {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--ae-border);
+  text-align: center;
+  font-size: 24px;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  color: var(--ae-text-primary);
+}
+
+/* ============================================================
+   Volume Slider Popup
+   ============================================================ */
+#ae-volume-slider {
+  position: fixed;
+  top: var(--ae-topbar-height);
+  right: 70px;
+  z-index: 9100;
+  display: none;
+  width: 200px;
+  padding: 16px;
+  background: var(--ae-bg-primary);
+  backdrop-filter: blur(var(--ae-blur));
+  -webkit-backdrop-filter: blur(var(--ae-blur));
+  border: 1px solid var(--ae-border);
+  border-radius: var(--ae-radius-sm);
+  box-shadow: var(--ae-shadow-lg);
+  animation: ae-fade-in 0.12s ease-out;
+}
+
+#ae-volume-slider.visible {
+  display: block;
+}
+
+.ae-volume-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ae-text-secondary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ae-volume-label svg {
+  width: 16px;
+  height: 16px;
+}
+
+.ae-volume-track {
+  width: 100%;
+  height: 4px;
+  background: var(--ae-bg-tertiary);
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}
+
+.ae-volume-fill {
+  height: 100%;
+  background: var(--ae-accent);
+  border-radius: 2px;
+  width: 75%;
+  position: relative;
+}
+
+.ae-volume-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--ae-accent);
+  position: absolute;
+  right: -7px;
+  top: -5px;
+  box-shadow: 0 0 6px var(--ae-accent-glow);
+  cursor: grab;
+}
+
+.ae-volume-thumb:active {
+  cursor: grabbing;
+}
+
+.ae-volume-value {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--ae-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   Desktop Icons
+   ============================================================ */
+.ae-desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 80px;
+  padding: 8px 4px;
+  border-radius: var(--ae-radius-sm);
+  cursor: pointer;
+  transition: background var(--ae-transition);
+  user-select: none;
+  text-align: center;
+}
+
+.ae-desktop-icon:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.ae-desktop-icon.selected {
+  background: var(--ae-accent-glow);
+}
+
+.ae-desktop-icon .ae-desktop-icon-img {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ae-text-primary);
+}
+
+.ae-desktop-icon .ae-desktop-icon-img svg {
+  width: 36px;
+  height: 36px;
+}
+
+.ae-desktop-icon .ae-desktop-icon-label {
+  font-size: 11px;
+  color: var(--ae-text-primary);
+  word-break: break-word;
+  line-height: 1.3;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  max-width: 76px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* Rubber-band selection box */
+.ae-select-box {
+  position: fixed;
+  border: 1px solid var(--ae-accent);
+  background: var(--ae-accent-glow);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ============================================================
+   Procedural Wallpapers
+   ============================================================ */
+
+/* Deep Space - default */
+#ae-desktop[data-wallpaper="deep-space"] {
+  background: radial-gradient(ellipse at 20% 50%, #1a0533 0%, #0a0a14 50%, #000008 100%);
+}
+
+/* Aurora */
+#ae-desktop[data-wallpaper="aurora"] {
+  background: linear-gradient(135deg, #0a0a14 0%, #0d1f3c 25%, #0a3d5c 50%, #0d1f3c 75%, #0a0a14 100%);
+}
+
+/* Obsidian */
+#ae-desktop[data-wallpaper="obsidian"] {
+  background: linear-gradient(180deg, #141420 0%, #0a0a14 100%);
+}
+
+/* Nebula */
+#ae-desktop[data-wallpaper="nebula"] {
+  background: radial-gradient(ellipse at 70% 30%, #2d1b69 0%, #1a0533 30%, #0a0a14 70%);
+}
+
+/* Circuit */
+#ae-desktop[data-wallpaper="circuit"] {
+  background-color: #0a0a14;
+  background-image: linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
