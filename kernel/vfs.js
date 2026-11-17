@@ -210,6 +210,16 @@ Visit System Settings to customize themes, wallpapers, and proxy endpoints!
       await this.write(bookmarksPath, JSON.stringify(defaultBookmarks, null, 2), 'application/json');
     }
 
+    // Default Users in /system/config
+    const usersPath = '/system/config/users.json';
+    if (!(await this.exists(usersPath))) {
+      const defaultUsers = {
+        users: [{ username: 'Aether Administrator', password: '', role: 'admin', created: Date.now() }],
+        activeUser: 'Aether Administrator'
+      };
+      await this.write(usersPath, JSON.stringify(defaultUsers, null, 2), 'application/json');
+    }
+
     // Default Preferences in /system/config
     const prefsPath = '/system/config/preferences.json';
     if (!(await this.exists(prefsPath))) {
@@ -219,9 +229,33 @@ Visit System Settings to customize themes, wallpapers, and proxy endpoints!
         accentColor: '#00d4ff',
         proxyTransportUrl: 'https://bare.benroberts.net/',
         proxyTransportType: 'bare',
-        dockPinned: ['files', 'terminal', 'editor', 'browser', 'settings']
+        dockPinned: ['files', 'terminal', 'editor', 'browser', 'monitor', 'settings']
       };
       await this.write(prefsPath, JSON.stringify(defaultPrefs, null, 2), 'application/json');
+    }
+
+    // Default Sample Files
+    const sampleMdPath = '/home/user/Desktop/Welcome.md';
+    if (!(await this.exists(sampleMdPath))) {
+      const sampleMd = `# Welcome to Aetherium OS
+
+Aetherium is a high-performance, browser-based operating system built with:
+- **100% Client-Side ES6+ Modules**: Runs statically on GitHub Pages.
+- **Asynchronous IndexedDB VFS**: Hierarchical POSIX file management.
+- **Hardware-Accelerated Compositor**: 3D translate-based window stacking.
+- **AetherNet Proxy**: Service Worker-based network proxy engine.
+
+### Quick Shortcuts:
+- **Alt + Space**: Spotlight Search
+- **Ctrl + S**: Save in Code Editor
+- **Double Click**: Launch files or open folders
+- **Drag to Screen Edges**: Snap windows (left, right, or top maximize)
+`;
+      await this.write(sampleMdPath, sampleMd, 'text/markdown');
+    }
+
+    if (!(await this.exists('/home/user/Desktop/Projects'))) {
+      await this.mkdir('/home/user/Desktop/Projects');
     }
   }
 

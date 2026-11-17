@@ -164,6 +164,9 @@ export class WindowManager {
     };
 
     this.windows.set(windowId, winData);
+    if (!this.container) {
+      this.container = document.getElementById('ae-window-container') || document.body;
+    }
     this.container.appendChild(winEl);
 
     // Event Bindings

@@ -224,21 +224,56 @@
 /* ---- Dock Icon ---- */
 .ae-dock-icon {
   position: relative;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  color: var(--ae-text-primary);
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background var(--ae-transition);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
   user-select: none;
 }
 
 .ae-dock-icon:hover {
-  transform: scale(1.3) translateY(-6px);
-  background: var(--ae-bg-tertiary);
+  transform: scale(1.28) translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5), 0 0 16px var(--ae-accent-glow);
+}
+
+/* App-Specific Vibrant Icon Badges */
+.ae-dock-icon[data-app="browser"] {
+  background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+}
+.ae-dock-icon[data-app="files"] {
+  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+}
+.ae-dock-icon[data-app="terminal"] {
+  background: linear-gradient(135deg, #1e293b 0%, #090d16 100%);
+  border-color: rgba(0, 212, 255, 0.4);
+  color: #00d4ff;
+}
+.ae-dock-icon[data-app="editor"] {
+  background: linear-gradient(135deg, #818cf8 0%, #4f46e5 100%);
+}
+.ae-dock-icon[data-app="monitor"] {
+  background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+}
+.ae-dock-icon[data-app="settings"] {
+  background: linear-gradient(135deg, #94a3b8 0%, #475569 100%);
+}
+.ae-dock-icon[data-app="calculator"] {
+  background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+}
+.ae-dock-icon[data-app="notes"] {
+  background: linear-gradient(135deg, #facc15 0%, #ca8a04 100%);
+  color: #1f2937;
+}
+.ae-dock-icon[data-app="mediaplayer"] {
+  background: linear-gradient(135deg, #f472b6 0%, #db2777 100%);
 }
 
 .ae-dock-icon svg {
@@ -251,13 +286,14 @@
 .ae-dock-icon.active::after {
   content: '';
   position: absolute;
-  bottom: 2px;
+  bottom: -4px;
   left: 50%;
   transform: translateX(-50%);
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  background: var(--ae-accent);
+  background: #00d4ff;
+  box-shadow: 0 0 6px #00d4ff;
 }
 
 /* Dock tooltip */

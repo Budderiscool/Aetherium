@@ -240,7 +240,7 @@ a:hover {
 }
 
 /* ============================================================
-   Boot Screen
+   Boot Screen (High-Tech Cinematic)
    ============================================================ */
 .ae-boot-screen {
   position: fixed;
@@ -250,67 +250,191 @@ a:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #0a0a14;
+  background: radial-gradient(ellipse at 50% 45%, #101020 0%, #06060c 60%, #020205 100%);
   color: var(--ae-text-primary);
-  animation: ae-fade-in 0.6s ease-out;
+  user-select: none;
+  font-family: var(--ae-font-ui);
 }
 
-.ae-boot-emblem {
-  width: 160px;
-  height: 200px;
-  margin-bottom: 32px;
-  animation: ae-boot-glow 3s ease-in-out infinite;
+.ae-boot-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 520px;
+  width: 90vw;
 }
 
-.ae-boot-emblem svg {
-  width: 100%;
-  height: 100%;
-}
-
-#ae-boot-log {
-  width: 480px;
-  max-width: 90vw;
-  height: 160px;
-  overflow-y: auto;
-  padding: 12px 16px;
-  font-family: var(--ae-font-mono);
-  font-size: 12px;
-  line-height: 1.8;
-  color: var(--ae-text-secondary);
-  background: rgba(15, 15, 25, 0.6);
-  border: 1px solid var(--ae-border);
-  border-radius: var(--ae-radius-sm);
+.ae-boot-emblem-wrap {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 24px;
 }
 
-#ae-boot-log .log-entry {
-  white-space: pre;
+.ae-boot-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 28px;
+  border: 2px solid transparent;
+  border-top-color: var(--ae-accent);
+  border-right-color: var(--ae-accent-secondary);
+  animation: ae-spin 6s linear infinite;
+  filter: drop-shadow(0 0 12px var(--ae-accent-glow));
 }
 
-#ae-boot-log .log-entry::before {
-  content: '> ';
+.ae-boot-card {
+  width: 110px;
+  height: 110px;
+  background: rgba(18, 18, 30, 0.88);
+  border: 1.5px solid rgba(0, 212, 255, 0.4);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 8px 10px;
+  backdrop-filter: blur(16px);
+  animation: ae-boot-glow 3s ease-in-out infinite;
+}
+
+.ae-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.ae-card-number {
+  font-family: var(--ae-font-mono);
+  font-size: 11px;
+  font-weight: 700;
   color: var(--ae-accent);
 }
 
-.ae-boot-progress {
-  width: 320px;
-  max-width: 60vw;
-  height: 3px;
-  background: var(--ae-border);
-  border-radius: 2px;
-  overflow: hidden;
+.ae-card-series {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--ae-text-muted);
 }
 
-.ae-boot-progress-fill {
+.ae-card-symbol {
+  font-size: 42px;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1;
+  margin: auto 0;
+  color: #fff;
+  letter-spacing: -1px;
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+}
+
+.ae-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 9px;
+  color: var(--ae-text-secondary);
+}
+
+.ae-card-mass {
+  font-family: var(--ae-font-mono);
+  color: var(--ae-text-muted);
+}
+
+.ae-boot-brand {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: #fff;
+  margin-bottom: 4px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.ae-boot-meta {
+  font-size: 11px;
+  color: var(--ae-text-muted);
+  letter-spacing: 0.5px;
+  margin-bottom: 28px;
+}
+
+.ae-boot-progress-track {
+  width: 280px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.ae-boot-progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--ae-accent), var(--ae-accent-secondary));
-  border-radius: 2px;
   width: 0%;
-  transition: width 0.3s ease-out;
+  background: linear-gradient(90deg, #00d4ff, #6366f1);
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ae-boot-status {
+  font-size: 12px;
+  color: var(--ae-text-secondary);
+  font-family: var(--ae-font-mono);
+  height: 18px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.ae-verbose-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  color: var(--ae-text-muted);
+  font-size: 11px;
+  padding: 4px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ae-verbose-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ae-text-primary);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.ae-verbose-btn svg {
+  width: 12px;
+  height: 12px;
+}
+
+.ae-boot-log {
+  width: 100%;
+  max-height: 140px;
+  overflow-y: auto;
+  margin-top: 16px;
+  padding: 10px 14px;
+  font-family: var(--ae-font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  color: #00d4ff;
+  background: rgba(5, 5, 10, 0.9);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 8px;
+  text-align: left;
+}
+
+.ae-boot-line {
+  white-space: pre-wrap;
+  margin-bottom: 2px;
 }
 
 /* ============================================================
-   Lock Screen
+   Lock Screen (Modern Frosted Glass)
    ============================================================ */
 #ae-lock-screen {
   position: fixed;
@@ -320,54 +444,162 @@ a:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(ellipse at 50% 40%, #1a0533 0%, #0a0a14 60%, #000008 100%);
+  background: radial-gradient(ellipse at 50% 30%, rgba(20, 15, 35, 0.9) 0%, rgba(10, 10, 20, 0.98) 100%),
+              radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.08) 0%, transparent 50%);
   color: var(--ae-text-primary);
+  user-select: none;
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
 }
 
-#ae-lock-screen.visible {
-  display: flex;
-  animation: ae-fade-in 0.5s ease-out;
+.ae-lock-clock-wrap {
+  text-align: center;
+  margin-bottom: 32px;
 }
 
-.ae-lock-container {
+.ae-lock-clock {
+  font-size: 72px;
+  font-weight: 200;
+  letter-spacing: -2px;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  line-height: 1;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.ae-lock-date {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--ae-text-secondary);
+  margin-top: 8px;
+}
+
+.ae-lock-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  animation: ae-slide-up 0.6s ease-out;
+  padding: 32px;
+  background: rgba(25, 25, 40, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  width: 340px;
+  max-width: 90vw;
+  backdrop-filter: blur(20px);
+}
+
+.ae-lock-avatar-wrap {
+  position: relative;
+  margin-bottom: 16px;
 }
 
 .ae-lock-avatar {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  background: var(--ae-bg-secondary);
-  border: 2px solid var(--ae-border-hover);
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(99, 102, 241, 0.3));
+  border: 2px solid rgba(0, 212, 255, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--ae-text-secondary);
-  overflow: hidden;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
 }
 
 .ae-lock-avatar svg {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
+}
+
+.ae-lock-online-dot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--ae-success);
+  border: 2px solid #0a0a14;
 }
 
 .ae-lock-username {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
-  color: var(--ae-text-primary);
+  color: #fff;
+  margin-bottom: 2px;
 }
 
-.ae-lock-input-wrap {
+.ae-lock-role {
+  font-size: 11px;
+  color: var(--ae-text-muted);
+  margin-bottom: 20px;
+}
+
+.ae-lock-form {
+  width: 100%;
+}
+
+.ae-lock-input-group {
   position: relative;
-  width: 280px;
+  width: 100%;
+  margin-bottom: 12px;
 }
 
 .ae-lock-input {
   width: 100%;
+  padding: 10px 42px 10px 14px;
+  background: rgba(10, 10, 20, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.ae-lock-input:focus {
+  border-color: var(--ae-accent);
+  box-shadow: 0 0 0 3px var(--ae-accent-glow);
+}
+
+.ae-lock-submit-btn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--ae-accent);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.ae-lock-submit-btn:hover {
+  transform: translateY(-50%) scale(1.05);
+}
+
+.ae-lock-submit-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.ae-lock-actions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.ae-lock-actions .ae-btn {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 12px;
+}
   padding: 10px 16px;
   font-family: var(--ae-font-ui);
   font-size: 14px;
